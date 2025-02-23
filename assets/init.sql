@@ -11,7 +11,7 @@ create table tag (
     desc text
 );
 
-create table object (
+create table artifact (
     id integer primary key autoincrement,
     name text not null,
     desc text,
@@ -29,6 +29,7 @@ create table npc (
     int integer,
     sag integer,
     cha integer,
+    def integer,
     pv integer,
     init integer,
     illustration integer,
@@ -43,19 +44,19 @@ create table place (
     foreign key (illustration) references illustration(id)
 );
 
-create table illustration_tags (
-    illustration_id integer not null,
+create table npc_tags (
+    npc_id integer not null,
     tag_id integer not null,
-    primary key (illustration_id, tag_id),
-    foreign key (illustration_id) references illustration(id) on delete cascade on update cascade,
+    primary key (npc_id, tag_id),
+    foreign key (npc_id) references npc(id) on delete cascade on update cascade,
     foreign key (tag_id) references tag(id) on delete cascade on update cascade
 );
 
-create table object_tags (
-    object_id integer not null,
+create table artifact_tags (
+    artifact_id integer not null,
     tag_id integer not null,
-    primary key (object_id, tag_id),
-    foreign key (object_id) references object(id) on delete cascade on update cascade,
+    primary key (artifact_id, tag_id),
+    foreign key (artifact_id) references artifact(id) on delete cascade on update cascade,
     foreign key (tag_id) references tag(id) on delete cascade on update cascade
 );
 
@@ -75,10 +76,10 @@ create table place_npcs (
     foreign key (npc_id) references npc(id) on delete cascade on update cascade
 );
 
-create table place_objects (
+create table place_artifacts (
     place_id integer not null,
-    object_id integer not null,
-    primary key (place_id, object_id),
+    artifact_id integer not null,
+    primary key (place_id, artifact_id),
     foreign key (place_id) references place(id) on delete cascade on update cascade,
-    foreign key (object_id) references object(id) on delete cascade on update cascade
+    foreign key (artifact_id) references artifact(id) on delete cascade on update cascade
 );
